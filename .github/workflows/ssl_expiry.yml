@@ -24,7 +24,7 @@ jobs:
       - name: Check SSL Expiry
         run: |
           # Replace 'example.com' with your domain.
-          domains=$(cat ssl_alert/.github/workflows/domains_list.txt)
+          domains=$(cat .github/workflows/domains_list.txt)
 
           for domain in "${domains[@]}"; do
           # Get the expiry date of the SSL certificate.
