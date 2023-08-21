@@ -43,5 +43,5 @@ jobs:
 
             echo "Sending Slack Alert..."
             # Use curl to send a message to your Slack webhook.
-            curl -X POST -H 'Content-type: application/json' --data '{"text":" The SSL Certificate for '"$domain"' will expire in '"$days_until_expiry"' days!"}' ${{ secrets.slack_api }}
+            curl -X POST -H 'Content-type: application/json' --data '{"text":" Domain: '"$domain"' \n Warning: The SSL Certificate for '"$domain"' will expire in '"$days_until_expiry"' days!"}' ${{ secrets.slack_api }}
   
