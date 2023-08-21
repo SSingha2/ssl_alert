@@ -25,8 +25,9 @@ jobs:
       - name: Check SSL Expiry
         run: |
           # Replace 'example.com' with your domain.
-          domain="example.com"
-          
+          domains=("example.com" "anotherexample.com")
+
+          for domain in "${domains[@]}"; do
           # Get the expiry date of the SSL certificate.
           expiry_date=$(echo | openssl s_client -servername $domain -connect $domain:443 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f 2)
 
@@ -44,4 +45,5 @@ jobs:
             echo "Sending Slack Alert..."
             # Use curl to send a message to your Slack webhook.
             curl -X POST -H 'Content-type: application/json' --data '{"text":" Domain: '"$domain"' \n Warning: The SSL Certificate for '"$domain"' will expire in '"$days_until_expiry"' days!"}' ${{ secrets.slack_api }}
+          done
   
