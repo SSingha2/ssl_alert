@@ -19,8 +19,8 @@ jobs:
       - name: Install Dependencies
         run: |
           # Install necessary tools (you may need to adjust this depending on your setup).
-          apt-get update -y
-          apt-get install -y openssl
+          sudo apt-get update -y
+          sudo apt-get install -y openssl
 
       - name: Check SSL Expiry
         run: |
