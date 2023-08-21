@@ -5,7 +5,6 @@ name: SSL Expiry Check
 on:
   workflow_dispatch:
   schedule:
-    # Set the schedule for when you want to run the check (e.g., every day).
     - cron: '0 0 * * *'
 
 jobs:
@@ -25,7 +24,7 @@ jobs:
       - name: Check SSL Expiry
         run: |
           # Replace 'example.com' with your domain.
-          domains=$(cat domains_list.txt)
+          domains=$(cat ./domains_list.txt)
 
           for domain in "${domains[@]}"; do
           # Get the expiry date of the SSL certificate.
