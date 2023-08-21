@@ -25,7 +25,7 @@ jobs:
       - name: Check SSL Expiry
         run: |
           # Replace 'example.com' with your domain.
-          domains=("example.com" "anotherexample.com")
+          domains=domains_list.txt
 
           for domain in "${domains[@]}"; do
           # Get the expiry date of the SSL certificate.
