@@ -1,0 +1,46 @@
+name: SSL Expiry Check
+
+on:
+  schedule:
+    # Set the schedule for when you want to run the check (e.g., every day).
+    - cron: '0 0 * * *'
+
+jobs:
+  ssl_expiry_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: |
+          # Install necessary tools (you may need to adjust this depending on your setup).
+          apt-get update -y
+          apt-get install -y openssl
+
+      - name: Check SSL Expiry
+        run: |
+          # Replace 'example.com' with your domain.
+          domain="example.com"
+          
+          # Get the expiry date of the SSL certificate.
+          expiry_date=$(echo | openssl s_client -servername $domain -connect $domain:443 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f 2)
+
+          # Convert expiry date to timestamp.
+          expiry_timestamp=$(date -d "${expiry_date}" +%s)
+
+          # Calculate the current timestamp.
+          current_timestamp=$(date +%s)
+
+          # Calculate the number of days until expiry.
+          days_until_expiry=$((($expiry_timestamp - $current_timestamp) / 86400))
+
+          echo "SSL Certificate for $domain expires in $days_until_expiry days."
+
+          # You can add a condition here to send a Slack message if the certificate is about to expire.
+          if [ "$days_until_expiry" -lt 30 ]; then
+            echo "Sending Slack Alert..."
+            # Use curl to send a message to your Slack webhook.
+            curl -X POST -H 'Content-type: application/json' --data '{"text":" The SSL Certificate for '"$domain"' will expire in '"$days_until_expiry"' days!"}' ${{ secrets.slack_api }}
+          fi
