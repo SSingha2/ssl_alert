@@ -1,14 +1,12 @@
 name: SSL Expiry Check
 
-on:
-  schedule:
-    # Set the schedule for when you want to run the check (e.g., every day).
-    - cron: '0 0 * * *'
-
-name: Manual trigger
+  
 
 on:
   workflow_dispatch:
+  schedule:
+    # Set the schedule for when you want to run the check (e.g., every day).
+    - cron: '0 0 * * *'
 
 jobs:
   ssl_expiry_check:
