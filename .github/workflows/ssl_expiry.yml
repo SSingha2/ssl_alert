@@ -24,7 +24,7 @@ jobs:
       - name: Check SSL Expiry
         run: |
           # Replace 'example.com' with your domain.
-          #domains=$(cat .github/workflows/domains_list.txt)
+          #domains=$(cat domains_list.txt)
 
           for domain in $(cat .github/workflows/domains_list.txt)
           do
